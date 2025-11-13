@@ -2,11 +2,13 @@
 
 <ul>
   <% @articles.each do |article| %>
-    <li>
-      <a href="<%= article_path(article) %>">
-        <%= article.title %>
-      </a>
-    </li>
+    <%= unless article.archived? %>
+      <li>
+        <a href="<%= article_path(article) %>">
+          <%= article.title %>
+        </a>
+      </li>
+    <% end %>
   <% end %>
 </ul>
 
