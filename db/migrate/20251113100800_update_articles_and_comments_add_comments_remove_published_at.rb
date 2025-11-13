@@ -5,29 +5,37 @@ class UpdateArticlesAndCommentsAddCommentsRemovePublishedAt < ActiveRecord::Migr
       remove_column :articles, :published_at, :datetime
     end
 
-    # 2) 컬럼 주석 추가 (articles)
-    change_column_comment :articles, :title, "게시글 제목"
-    change_column_comment :articles, :body, "게시글 본문"
-    change_column_comment :articles, :status, "공개 상태 값 (public, private, archived)"
-    change_column_comment :articles, :created_at, "레코드 생성 시각"
-    change_column_comment :articles, :updated_at, "레코드 수정 시각"
+    # 주석 관련 동작은 어댑터 지원 여부에 따라 조건부로 수행
+    conn = ActiveRecord::Base.connection
+    supports_comments = conn.respond_to?(:supports_comments?) ? conn.supports_comments? : false
 
-    # 선택: 테이블 주석
-    if respond_to?(:change_table_comment)
-      change_table_comment :articles, "게시글을 저장하는 테이블"
-    end
+    if supports_comments
+      # 2) 컬럼 주석 추가 (articles)
+      change_column_comment :articles, :title, "게시글 제목"
+      change_column_comment :articles, :body, "게시글 본문"
+      change_column_comment :articles, :status, "공개 상태 값 (public, private, archived)"
+      change_column_comment :articles, :created_at, "레코드 생성 시각"
+      change_column_comment :articles, :updated_at, "레코드 수정 시각"
 
-    # 3) 컬럼 주석 추가 (comments)
-    change_column_comment :comments, :article_id, "연관된 Article의 ID"
-    change_column_comment :comments, :commenter, "댓글 작성자 이름"
-    change_column_comment :comments, :body, "댓글 내용"
-    change_column_comment :comments, :status, "공개 상태 값 (public, private, archived)"
-    change_column_comment :comments, :created_at, "레코드 생성 시각"
-    change_column_comment :comments, :updated_at, "레코드 수정 시각"
+      # 선택: 테이블 주석
+      if respond_to?(:change_table_comment)
+        change_table_comment :articles, "게시글을 저장하는 테이블"
+      end
 
-    # 선택: 테이블 주석
-    if respond_to?(:change_table_comment)
-      change_table_comment :comments, "게시글에 달린 댓글을 저장하는 테이블"
+      # 3) 컬럼 주석 추가 (comments)
+      change_column_comment :comments, :article_id, "연관된 Article의 ID"
+      change_column_comment :comments, :commenter, "댓글 작성자 이름"
+      change_column_comment :comments, :body, "댓글 내용"
+      change_column_comment :comments, :status, "공개 상태 값 (public, private, archived)"
+      change_column_comment :comments, :created_at, "레코드 생성 시각"
+      change_column_comment :comments, :updated_at, "레코드 수정 시각"
+
+      # 선택: 테이블 주석
+      if respond_to?(:change_table_comment)
+        change_table_comment :comments, "게시글에 달린 댓글을 저장하는 테이블"
+      end
+    else
+      say "Skipping column/table comments: adapter does not support comments", true
     end
   end
 end

@@ -1,8 +1,10 @@
 <h1>Hello Rails!</h1>
 
+Our blog has <%= Article.public_count %> articles.
+
 <ul>
   <% @articles.each do |article| %>
-    <%= unless article.archived? %>
+    <% unless article.archived? %>
       <li>
         <a href="<%= article_path(article) %>">
           <%= article.title %>
