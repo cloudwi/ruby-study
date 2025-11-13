@@ -1,30 +1,13 @@
-<h1>Articles</h1>
+<h1>Hello Rails!</h1>
 
-<% if @articles.any? %>
-  <div data-controller="local-time">
-    <ul>
-      <% @articles.each do |article| %>
-        <li>
-          <h2><%= h(article.title) %></h2>
-          <% if article.published_at.present? %>
-            <div>
-              <small>
-                Published at:
-                <time data-utc="<%= article.published_at.utc.iso8601 %>">
-                  <%= article.published_at.in_time_zone.strftime("%Y-%m-%d %H:%M") %>
-                </time>
-              </small>
-            </div>
-          <% else %>
-            <div>
-              <%= button_to "지금 발행", publish_article_path(article), method: :patch, class: "btn" %>
-            </div>
-          <% end %>
-          <p><%= h(truncate(article.body.to_s, length: 200)) %></p>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-<% else %>
-  <p>등록된 글이 없습니다.</p>
-<% end %>
+<ul>
+  <% @articles.each do |article| %>
+    <li>
+      <a href="<%= article_path(article) %>">
+        <%= article.title %>
+      </a>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to 'New Article', new_article_path %>

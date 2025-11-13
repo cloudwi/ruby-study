@@ -3,12 +3,46 @@ class ArticlesController < ApplicationController
     @articles = Article.all
   end
 
-  def publish
-    article = Article.find(params[:id])
-    if article.update(published_at: Time.current)
-      redirect_to articles_path, notice: "게시글이 발행되었습니다."
+  def show
+    @article = Article.find(params[:id])
+  end
+
+  def new
+    @article = Article.new
+  end
+
+  def create
+    @article = Article.new(article_params)
+
+    if @article.save
+      redirect_to @article
     else
-      redirect_to articles_path, alert: "발행에 실패했습니다. 다시 시도해 주세요."
+      render :new, status: :unprocessable_entity
     end
+  end
+
+  def edit
+    @article = Article.find(params[:id])
+  end
+
+  def update
+    @article = Article.find(params[:id])
+    if @article.update(article_params)
+      redirect_to @article
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @article = Article.find(params[:id])
+    @article.destroy
+
+    redirect_to root_path, status: :see_other
+  end
+
+  private
+  def article_params
+    params.require(:article).permit(:title, :body)
   end
 end
