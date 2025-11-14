@@ -21,9 +21,7 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-    <% if Rails.env.production? %>
-      <%= Sentry.get_trace_propagation_meta.html_safe %>
-    <% end %>
+    <%= Sentry.get_trace_propagation_meta.html_safe %>
   </head>
 
   <body class="bg-gray-50 min-h-screen">
