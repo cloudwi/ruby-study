@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  http_basic_authenticate_with name: "stark", password: "1234", except: [:index, :show]
+  include Secured
 
   def index
     @articles = Article.all
@@ -7,6 +7,7 @@ class ArticlesController < ApplicationController
 
   def show
     @article = Article.find(params[:id])
+    @user = session[:userinfo]
   end
 
   def new
