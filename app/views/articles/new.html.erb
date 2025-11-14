@@ -1,3 +1,17 @@
-<h1>New Article</h1>
+<div class="max-w-4xl mx-auto">
+  <%= link_to root_path, class: "inline-flex items-center text-gray-600 hover:text-gray-900 mb-6 transition-colors" do %>
+    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+    </svg>
+    Back to Articles
+  <% end %>
 
-<%= render 'form', article: @article %>
+  <div class="bg-white rounded-xl shadow-lg p-8">
+    <div class="mb-6">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">New Article</h1>
+      <p class="text-gray-600">Share your thoughts with the world</p>
+    </div>
+
+    <%= render 'form', article: @article %>
+  </div>
+</div>

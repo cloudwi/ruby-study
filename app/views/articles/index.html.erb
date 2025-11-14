@@ -1,29 +1,66 @@
-<h1>Hello Rails!</h1>
+<div class="max-w-7xl mx-auto">
+  <!-- Header Section -->
+  <div class="flex justify-between items-center mb-12">
+    <div>
+      <h1 class="text-5xl font-bold text-gray-900 mb-2">My Blog</h1>
+      <p class="text-gray-600">
+        <%= Article.public_count %> <%= Article.public_count == 1 ? 'article' : 'articles' %> published
+      </p>
+    </div>
 
-Our blog has <%= Article.public_count %> articles.
+    <!-- Auth Section -->
+    <div class="flex items-center gap-4">
+      <% if session[:userinfo].present? %>
+        <div class="text-right">
+          <p class="text-sm text-gray-600">Welcome back,</p>
+          <p class="font-semibold text-gray-900"><%= session[:userinfo]["nickname"] %></p>
+        </div>
+        <%= button_to 'Logout', 'auth/logout', method: :get,
+            class: "px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition duration-200",
+            data: { turbo: false } %>
+      <% else %>
+        <%= button_to 'Login', '/auth/auth0', method: :post,
+            class: "px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200 font-medium",
+            data: { turbo: false } %>
+      <% end %>
+    </div>
+  </div>
 
-<!-- Place a login button anywhere on your application -->
-
-<ul>
-  <% @articles.each do |article| %>
-    <% unless article.archived? %>
-      <li>
-        <a href="<%= article_path(article) %>">
-          <%= article.title %>
-        </a>
-      </li>
+  <!-- Articles Grid -->
+  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
+    <% @articles.each do |article| %>
+      <% unless article.archived? %>
+        <%= link_to article_path(article), class: "block group" do %>
+          <article class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 h-full border border-gray-100 group-hover:border-blue-200">
+            <h2 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+              <%= article.title %>
+            </h2>
+            <p class="text-gray-600 line-clamp-3 mb-4">
+              <%= truncate(article.body, length: 150) %>
+            </p>
+            <div class="flex items-center justify-between text-sm">
+              <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-medium">
+                <%= article.status %>
+              </span>
+              <span class="text-blue-600 font-medium group-hover:translate-x-1 transition-transform">
+                Read more →
+              </span>
+            </div>
+          </article>
+        <% end %>
+      <% end %>
     <% end %>
-  <% end %>
-</ul>
+  </div>
 
-<%= link_to 'New Article', new_article_path %>
-
-<% if session[:userinfo].present? %>
-  <p>Logged in as <%= session[:userinfo]["nickname"] %></p>
-  <%= button_to 'Logout', 'auth/logout', method: :get, data: { turbo: false } %>
-<% else %>
-  <%= button_to 'Login', '/auth/auth0', method: :post, data: { turbo: false } %>
-<% end %>
-
-<!-- Place a logout button anywhere on your application -->
+  <!-- New Article Button -->
+  <div class="text-center">
+    <%= link_to new_article_path,
+        class: "inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-200 shadow-md hover:shadow-lg" do %>
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+      </svg>
+      New Article
+    <% end %>
+  </div>
+</div>
 
