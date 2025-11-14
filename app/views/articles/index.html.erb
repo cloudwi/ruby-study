@@ -17,6 +17,13 @@ Our blog has <%= Article.public_count %> articles.
 </ul>
 
 <%= link_to 'New Article', new_article_path %>
+
+<% if session[:userinfo].present? %>
+  <p>Logged in as <%= session[:userinfo]["nickname"] %></p>
+  <%= button_to 'Logout', 'auth/logout', method: :get, data: { turbo: false } %>
+<% else %>
+  <%= button_to 'Login', '/auth/auth0', method: :post, data: { turbo: false } %>
+<% end %>
+
 <!-- Place a logout button anywhere on your application -->
-<%= button_to 'Login', '/auth/auth0', method: :post, data: { turbo: false } %>
-<%= button_to 'Logout', 'auth/logout', method: :get, data: { turbo: false } %>
+
