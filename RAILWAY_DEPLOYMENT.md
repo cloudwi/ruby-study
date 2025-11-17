@@ -23,13 +23,19 @@ AUTH0_CLIENT_ID=<Auth0 Client ID>
 AUTH0_CLIENT_SECRET=<Auth0 Client Secret>
 ```
 
-### 3. Sentry 환경변수 (선택)
+### 3. OpenAI 환경변수 (선택 - AI 요약 기능 사용 시)
+
+```bash
+OPENAI_API_KEY=sk-your-openai-api-key
+```
+
+### 4. Sentry 환경변수 (선택)
 
 ```bash
 SENTRY_DSN=https://f573ec547d71c09defb67758c7931bec@o4510362292781056.ingest.us.sentry.io/4510377298493440
 ```
 
-### 4. Database 환경변수
+### 5. Database 환경변수
 
 Railway PostgreSQL을 추가하면 자동으로 설정됩니다:
 ```bash
