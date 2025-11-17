@@ -16,7 +16,7 @@ class ArticlesController < ApplicationController
         client = OpenAI::Client.new
         response = client.chat(
           parameters: {
-            model: "gpt-4o-mini",
+            model: "gpt-5.1",
             messages: [{ role: "user", content: content }],
             temperature: 0.7
           }
