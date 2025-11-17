@@ -8,10 +8,23 @@ class ArticlesController < ApplicationController
   def show
     @article = Article.find(params[:id])
     @user = session[:userinfo]
+
+    # OpenAI로 글 요약 생성
     begin
-      1 / 0
-    rescue ZeroDivisionError => exception
-      Sentry.capture_exception(exception)
+      content = "#{@article.body}\n위 글을 요약해주세요."
+      client = OpenAI::Client.new
+      response = client.chat(
+        parameters: {
+          model: "gpt-3.5-turbo",
+          messages: [{ role: "user", content: content }],
+          temperature: 0.7
+        }
+      )
+
+      @openai_response = response.dig("choices", 0, "message", "content")
+    rescue StandardError => e
+      Rails.logger.error "OpenAI API Error: #{e.message}"
+      @openai_response = nil
     end
   end
 

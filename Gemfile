@@ -75,3 +75,5 @@ gem "tailwindcss-rails", "~> 4.4"
 
 gem "sentry-ruby"
 gem "sentry-rails"
+
+gem "ruby-openai"
