@@ -2,7 +2,13 @@
 
 # Load Auth0 configuration if available
 begin
-  AUTH0_CONFIG = Rails.application.config_for(:auth0)
+  auth0_config = Rails.application.config_for(:auth0)
+  # Check if the config has actual values (not just empty strings from ERB)
+  if auth0_config && auth0_config['auth0_domain'].present? && auth0_config['auth0_client_id'].present?
+    AUTH0_CONFIG = auth0_config
+  else
+    AUTH0_CONFIG = nil
+  end
 rescue RuntimeError
   # Config file not found or environment variables not set
   AUTH0_CONFIG = nil
