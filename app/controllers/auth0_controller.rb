@@ -23,6 +23,8 @@ class Auth0Controller < ApplicationController
   end
 
   def logout_url
+    return root_url unless defined?(AUTH0_CONFIG) && AUTH0_CONFIG.present?
+
     request_params = {
       returnTo: root_url,
       client_id: AUTH0_CONFIG['auth0_client_id']
