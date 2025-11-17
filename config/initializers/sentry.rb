@@ -1,10 +1,10 @@
 # Sentry configuration
 # In development, SSL verification is disabled to avoid certificate issues
 
-if Rails.env.production? || ENV['SENTRY_DSN'].present?
+if Rails.env.production? || ENV["SENTRY_DSN"].present?
   # Disable SSL verification in development to avoid certificate issues
   if Rails.env.development?
-    require 'net/http'
+    require "net/http"
 
     # Monkey patch Net::HTTP to disable SSL verification
     module Net
@@ -22,8 +22,8 @@ if Rails.env.production? || ENV['SENTRY_DSN'].present?
   end
 
   Sentry.init do |config|
-    config.dsn = ENV['SENTRY_DSN'] || 'https://f573ec547d71c09defb67758c7931bec@o4510362292781056.ingest.us.sentry.io/4510377298493440'
-    config.breadcrumbs_logger = [:active_support_logger, :http_logger]
+    config.dsn = ENV["SENTRY_DSN"] || "https://f573ec547d71c09defb67758c7931bec@o4510362292781056.ingest.us.sentry.io/4510377298493440"
+    config.breadcrumbs_logger = [ :active_support_logger, :http_logger ]
     config.send_default_pii = true
     config.environment = Rails.env
     config.sample_rate = 1.0

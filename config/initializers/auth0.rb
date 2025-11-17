@@ -4,7 +4,7 @@
 begin
   auth0_config = Rails.application.config_for(:auth0)
   # Check if the config has actual values (not just empty strings from ERB)
-  if auth0_config && auth0_config['auth0_domain'].present? && auth0_config['auth0_client_id'].present?
+  if auth0_config && auth0_config["auth0_domain"].present? && auth0_config["auth0_client_id"].present?
     AUTH0_CONFIG = auth0_config
   else
     AUTH0_CONFIG = nil
@@ -16,7 +16,7 @@ end
 
 # Monkey patch to disable SSL verification in development environment only
 if Rails.env.development?
-  require 'net/http'
+  require "net/http"
 
   module Net
     class HTTP
@@ -37,12 +37,12 @@ if AUTH0_CONFIG.present?
   Rails.application.config.middleware.use OmniAuth::Builder do
     provider(
       :auth0,
-      AUTH0_CONFIG['auth0_client_id'],
-      AUTH0_CONFIG['auth0_client_secret'],
-      AUTH0_CONFIG['auth0_domain'],
-      callback_path: '/auth/auth0/callback',
+      AUTH0_CONFIG["auth0_client_id"],
+      AUTH0_CONFIG["auth0_client_secret"],
+      AUTH0_CONFIG["auth0_domain"],
+      callback_path: "/auth/auth0/callback",
       authorize_params: {
-        scope: 'openid profile email'
+        scope: "openid profile email"
       }
     )
   end
