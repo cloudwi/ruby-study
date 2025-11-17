@@ -17,7 +17,7 @@ class ArticlesController < ApplicationController
         response = client.chat(
           parameters: {
             model: "gpt-4o-mini", # 더 저렴한 모델 사용
-            messages: [{ role: "user", content: content }],
+            messages: [ { role: "user", content: content } ],
             temperature: 0.7
           }
         )
